@@ -14,7 +14,7 @@ class Records{
         int eid;
         string ename;
         int age;
-        double salary;
+        int salary;
     }emp_record;
 
     /*** You can add more variables if you want below ***/
@@ -22,6 +22,28 @@ class Records{
     int no_values = 0; //You can use this to check if you've don't have any more tuples
     int number_of_emp_records = 0; // Tracks number of emp_records you have on the buffer
 };
+
+Records stringToRecord(string line) {
+    string word;
+    Records emp;
+    // turn line into a stream
+    // printf("stringToRecord\n");
+
+    stringstream s(line);
+    // gets everything in stream up to comma
+    getline(s, word,',');
+    emp.emp_record.eid = stoi(word);
+    getline(s, word, ',');
+    emp.emp_record.ename = word;
+    // printf("Emp Record Name: %s, word: %s\n", emp.emp_record.ename.c_str(), word.c_str());
+    getline(s, word, ',');
+    emp.emp_record.age = stoi(word);
+    getline(s, word, ',');
+    emp.emp_record.salary = stoi(word);
+    // printf("return record\n");
+
+    return emp;
+}
 
 // Grab a single block from the Emp.csv file and put it inside the EmpRecord structure of the Records Class
 Records Grab_Emp_Record(fstream &empin) {
@@ -36,10 +58,11 @@ Records Grab_Emp_Record(fstream &empin) {
         emp.emp_record.eid = stoi(word);
         getline(s, word, ',');
         emp.emp_record.ename = word;
+        // printf("Emp Record Name: %s, word: %s\n", emp.emp_record.ename.c_str(), word.c_str());
         getline(s, word, ',');
         emp.emp_record.age = stoi(word);
         getline(s, word, ',');
-        emp.emp_record.salary = stod(word);
+        emp.emp_record.salary = stoi(word);
 
         return emp;
     } else {
