@@ -43,6 +43,9 @@ void Sort_Buffer(fstream &EmpCSV){
         // for loop to grab 22 pages of tuples from Emp.CSV
         for (int i = 0; i < buffer_size; i++) {
             buffers[i] = Grab_Emp_Record(EmpCSV);
+            if(buffers[i].emp_record.eid == 716859) {
+                tmp = buffers[i];
+            }
             // printf("Grabbed Emp Record: %d\n", buffers[i].emp_record.eid);
             if (buffers[i].no_values == -1) {
                 break; // we've reached EOF
@@ -69,11 +72,7 @@ void Sort_Buffer(fstream &EmpCSV){
         // printf("Creating tmpFile%d.csv\n", run);
         fstream tmpFile("tmpFile" + to_string(run) + ".csv", ios::in | ios::out | ios::trunc);
         for (int i = 0; i < buffer_size; i++) {
-            if(buffers[i].emp_record.eid == 716859) {
-                printf("716859 found\n");
-            }
             if (buffers[i].no_values == -1) {
-                printf("broke on %d\n", buffers[i].emp_record.eid);
                 break;
             }
             if(numRecords == 397) {
@@ -83,7 +82,7 @@ void Sort_Buffer(fstream &EmpCSV){
             tmpFile << buffers[i].emp_record.eid << "," << buffers[i].emp_record.ename << "," << buffers[i].emp_record.age << "," << buffers[i].emp_record.salary << "\n";
             // printf("Outputted Emp Record: %d\n", buffers[i].emp_record.eid);
         }
-        printf("NumRecords: %d\n", numRecords);
+        // printf("NumRecords: %d\n", numRecords);
         tmpFile.close();
 
         
@@ -200,8 +199,12 @@ void Merge_Runs(fstream &SortOut){
     return;
 }
 
-void PrintSorted(){
-
+//This function will be used to print the sorted records in EmpSorted.csv
+void PrintSorted(fstream &EmpSorted){
+    string line;
+    while(getline(EmpSorted, line)) {
+        printf("%s\n", line.c_str());
+    }
     //Store in EmpSorted.csv
     return;
 }
@@ -232,9 +235,14 @@ int main() {
     Merge_Runs(SortOut);
     SortOut.close();
 
+    //3. Print the sorted records in EmpSorted.csv
+    printf("Printing sorted records in EmpSorted.csv\n");
+    fstream empSorted2("EmpSorted.csv", ios::in);
+    PrintSorted(empSorted2);
+    empSorted2.close();
+
 
     //Please delete the temporary files (runs) after you've sorted the Emp.csv
-    // for loop to delete tmpFile 1-20
     for (int i = 1; i <= 20; i++) {
         remove(("tmpFile" + to_string(i) + ".csv").c_str());
     }
