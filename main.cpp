@@ -187,12 +187,7 @@ void Merge_Runs(fstream &SortOut){
         // printf("after stringToRecord\n");
         
     }
-    printf("broke while loop\n");
-    // string line;
-    // getline(*runs[ret], line, '\n');
-    // printf("Got tuple: %s\n", line.c_str());
-    // SortOut << line;
-    
+    // printf("broke while loop\n");
 
     // output the rest of the records to EmpSorted.csv
     //and store the Sorted results of your Buffer using PrintSorted() 
